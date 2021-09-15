@@ -1,23 +1,18 @@
 <template>
   <div id="app">
-    <h2>Chat</h2>
-    <p>{{ userid }}</p>
-    <input v-model="message" />
-    <button v-on:click="sendMessage('hello')">Send Message</button>
-    <p v-for="message in messages" :key="message">{{ message.message }}</p>
+    </Join>
   </div>
 </template>
 
 <script>
 import io from "socket.io-client";
+import Join from "./views/Join.vue";
 export default {
   name: "App",
-  components: {},
+  components: {Join},
   data: function () {
     return {
       message: "",
-      messages: [],
-      counter: 0,
       socket: null,
       userid: null,
     };
@@ -53,6 +48,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
