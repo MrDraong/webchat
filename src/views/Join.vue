@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <input type="text" v-model="username" />
-    <router-link to="/chat/${username}" :username="username"
+    <router-link to="/chat" :username="username"
       ><button>Join</button></router-link
     >
   </div>
