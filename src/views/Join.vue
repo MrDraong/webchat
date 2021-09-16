@@ -1,7 +1,9 @@
 <template>
   <div id="nav">
-    <input type="text" />
-    <router-link to="/chat"><button>Join</button></router-link>
+    <input type="text" v-model="username" />
+    <router-link to="/chat/${username}" :username="username"
+      ><button>Join</button></router-link
+    >
   </div>
 </template>
 
@@ -9,5 +11,10 @@
 export default {
   name: "Join",
   components: {},
+  data: function () {
+    return {
+      username: "",
+    };
+  },
 };
 </script>

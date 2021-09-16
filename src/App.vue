@@ -5,37 +5,11 @@
 </template>
 
 <script>
-import io from "socket.io-client";
 export default {
   name: "App",
   components: {},
   data: function () {
-    return {
-      message: "",
-      socket: null,
-      userid: null,
-    };
-  },
-
-  methods: {
-    sendMessage: function () {
-      this.socket.emit("SEND_MESSAGE", {
-        message: this.message,
-      });
-      this.message = "";
-    },
-  },
-  mounted() {
-    this.socket = io("localhost:8080");
-    this.socket.on("MESSAGE", (data) => {
-      this.messages = [...this.messages, data];
-    });
-    //this.socket.on("new user")
-    this.socket.on("userid", (userid) => {
-      if (this.userid == null) {
-        this.userid = userid;
-      }
-    });
+    return {};
   },
 };
 </script>

@@ -12,9 +12,10 @@ const routes = [
     component: Join
   },
   {
-    path: '/chat',
+    path: '/chat/:username',
     name: 'Chat',
-    component: Chat
+    component: Chat,
+    props: {default:true}
   }
 ]
 
