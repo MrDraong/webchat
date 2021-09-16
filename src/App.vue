@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    </Join>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import io from "socket.io-client";
-import Join from "./views/Join.vue";
 export default {
   name: "App",
-  components: {Join},
+  components: {},
   data: function () {
     return {
       message: "",

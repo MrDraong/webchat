@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Join from '../views/Join.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Join from '../views/Join.vue';
+import Chat from '../views/Chat.vue';
 
 Vue.use(VueRouter)
 
@@ -13,8 +14,7 @@ const routes = [
   {
     path: '/chat',
     name: 'Chat',
-    
-    component: () => import('../views/Chat.vue')
+    component: Chat
   }
 ]
 
