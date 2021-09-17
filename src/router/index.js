@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Join from '../views/Join.vue';
-import Chat from '../views/Chat.vue';
+//import Chat from '../views/Chat.vue';
 
 Vue.use(VueRouter)
+
+const User = {
+  template: `<div>User {{ $route.params.id }}</div>`
+}
 
 const routes = [
   {
@@ -12,10 +16,9 @@ const routes = [
     component: Join
   },
   {
-    path: '/chat/:username',
-    name: 'Chat',
-    component: Chat,
-    props: {default:true}
+    path: '/user/:id',
+    name: 'User',
+    component: User,
   }
 ]
 

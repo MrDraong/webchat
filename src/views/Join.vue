@@ -1,8 +1,8 @@
 <template>
   <div id="nav">
     <input type="text" v-model="username" />
-    <router-link to="/chat" :username="username"
-      ><button>Join</button></router-link
+    <router-link :to="{ path: '/user/' + this.username }">
+      <button>Join</button></router-link
     >
   </div>
 </template>
