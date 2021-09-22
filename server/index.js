@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-server = app.listen(8080, function(){
-    console.log('server is running on port 8080');
+server = app.listen(3301, function(){
+    console.log('server is running on port 3301');
 });
 
 const io = require('socket.io')(server);
@@ -10,8 +10,8 @@ const io = require('socket.io')(server);
 let users = [];
 
 const messages = {
-  general: [],
-  game: [],
+  general: ["Salut", "Ca va ?"],
+  other: ["Other", "Second messages"],
 };
 
 io.on('connection', socket => {
@@ -25,9 +25,8 @@ io.on('connection', socket => {
     io.emit("new user", users);
   });
 
-  socket.on("join room", (roomName, callback) => {
+  socket.on("join room", (roomName) => {
     socket.join(roomName);
-    callback(messages[roomName]);
     socket.emit("joined", messages[roomName]);
   });
 
@@ -60,8 +59,4 @@ io.on('connection', socket => {
     users = users.filter(u => u.id !== socket.id);
     io.emit("new user", users);
   });
-
-  //socket.on('SEND_MESSAGE', function(data) {
-  //   io.emit('MESSAGE', data)
-  //});
 });
