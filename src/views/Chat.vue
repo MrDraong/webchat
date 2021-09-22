@@ -16,7 +16,7 @@
       <div class="room">
         <p v-for="msg in messages" :key="msg">{{ msg }}</p>
         <input type="text" />
-        <button v-on:click="">Send</button>
+        <button v-on:click="sendMessage">Send</button>
       </div>
     </section>
   </div>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     sendMessage: function () {
-      this.socket.emit("SEND_MESSAGE", {
+      this.socket.emit("send message", {
         message: this.message,
       });
       this.message = "";
