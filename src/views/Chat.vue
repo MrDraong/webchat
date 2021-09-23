@@ -17,10 +17,10 @@
         <p v-for="msg in messages[chatName]" :key="msg.content">
           {{ msg.sender }} say : {{ msg.content }}
         </p>
-        <input v-model="message" type="text" />
-        <button v-on:click="sendMessage">Send</button>
       </div>
     </section>
+    <input v-model="message" type="text" />
+    <button v-on:click="sendMessage">Send</button>
   </div>
 </template>
 
@@ -49,10 +49,12 @@ export default {
       this.message = "";
     },
     general: function () {
-      this.socket.emit("join room", "general");
+      this.chatName = "general";
+      this.socket.emit("join room", this.chatName);
     },
     other: function () {
-      this.socket.emit("join room", "other");
+      this.chatName = "other";
+      this.socket.emit("join room", this.chatName);
     },
   },
   mounted() {
@@ -66,9 +68,7 @@ export default {
     });
 
     this.socket.on("new message", (data) => {
-      console.log(this.messages);
       this.messages[data.chatName].push(data);
-      console.log(this.messages[data.chatName]);
     });
 
     this.socket.on("joined", (oldMessages) => {

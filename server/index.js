@@ -37,7 +37,7 @@ io.on('connection', socket => {
       sender,
       chatName
     };
-    socket.to(chatName).emit("new message", payload);
+    socket.emit("new message", payload);
     
     if(messages[chatName]){
       messages[chatName].push({
