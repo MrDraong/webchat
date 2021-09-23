@@ -10,8 +10,8 @@ const io = require('socket.io')(server);
 let users = [];
 
 const messages = {
-  general: ["Salut", "Ca va ?"],
-  other: ["Other", "Second messages"],
+  general: [{"content" : "Salut", "sender" : "MrDraong"}],
+  other: [{"content" : "Other", "sender" : "MrDraong"}],
 };
 
 io.on('connection', socket => {
@@ -30,11 +30,11 @@ io.on('connection', socket => {
     socket.emit("joined", messages[roomName]);
   });
 
-  socket.on("send message", ({content, to, sender, chatName, isChannel}) =>{
+  socket.on("send message", ({content, to, sender, isChannel}) =>{
+    
     if(isChannel){
       const payload = {
         content,
-        chatName,
         sender
       };
       socket.to(to).emit("new message", payload);
@@ -42,15 +42,14 @@ io.on('connection', socket => {
     else{
       const payload = {
           content,
-          chatName: sender,
           sender
       };
       socket.to(to).emit("new message", payload);
     }
-    if(messages[chatName]){
-      messages[chatName].push({
-        sender,
-        content
+    if(messages[to]){
+      messages[to].push({
+        content,
+        sender
       });
     }
   });

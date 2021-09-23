@@ -14,8 +14,10 @@
         <a v-on:click="other">Other</a>
       </aside>
       <div class="room">
-        <p v-for="msg in messages" :key="msg">{{ msg }}</p>
-        <input type="text" />
+        <p v-for="msg in messages" :key="msg.content">
+          {{ msg.sender }} say : {{ msg.content }}
+        </p>
+        <input v-model="message" type="text" />
         <button v-on:click="sendMessage">Send</button>
       </div>
     </section>
@@ -39,7 +41,10 @@ export default {
   methods: {
     sendMessage: function () {
       this.socket.emit("send message", {
-        message: this.message,
+        content: this.message,
+        to: "general",
+        sender: this.clientUsername,
+        isChannel: true,
       });
       this.message = "";
     },
@@ -51,23 +56,22 @@ export default {
     },
   },
   mounted() {
-    this.username = this.$route.params.id;
+    this.clientUsername = this.$route.params.id;
     this.socket = io("localhost:3301");
 
-    this.socket.emit("join server", this.username);
+    this.socket.emit("join server", this.clientUsername);
 
     this.socket.on("new user", (users) => {
-      console.log(users);
       this.users = users;
     });
 
     this.socket.on("new message", (data) => {
+      console.log(data);
       this.messages = [...this.messages, data];
     });
 
     this.socket.on("joined", (oldMessages) => {
       this.messages = oldMessages;
-      console.log(this.messages);
     });
 
     this.socket.emit("join room", "general");
