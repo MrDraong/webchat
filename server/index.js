@@ -30,24 +30,17 @@ io.on('connection', socket => {
     socket.emit("joined", messages[roomName]);
   });
 
-  socket.on("send message", ({content, to, sender, isChannel}) =>{
+  socket.on("send message", ({content, sender, chatName}) =>{
     
-    if(isChannel){
-      const payload = {
-        content,
-        sender
-      };
-      socket.to(to).emit("new message", payload);
-    }
-    else{
-      const payload = {
-          content,
-          sender
-      };
-      socket.to(to).emit("new message", payload);
-    }
-    if(messages[to]){
-      messages[to].push({
+    const payload = {
+      content,
+      sender,
+      chatName
+    };
+    socket.to(chatName).emit("new message", payload);
+    
+    if(messages[chatName]){
+      messages[chatName].push({
         content,
         sender
       });

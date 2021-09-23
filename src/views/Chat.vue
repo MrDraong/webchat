@@ -14,7 +14,7 @@
         <a v-on:click="other">Other</a>
       </aside>
       <div class="room">
-        <p v-for="msg in messages" :key="msg.content">
+        <p v-for="msg in messages[chatName]" :key="msg.content">
           {{ msg.sender }} say : {{ msg.content }}
         </p>
         <input v-model="message" type="text" />
@@ -36,15 +36,15 @@ export default {
       socket: null,
       clientUsername: "",
       users: [],
+      chatName: "",
     };
   },
   methods: {
     sendMessage: function () {
       this.socket.emit("send message", {
         content: this.message,
-        to: "general",
         sender: this.clientUsername,
-        isChannel: true,
+        chatName: this.chatName,
       });
       this.message = "";
     },
@@ -66,15 +66,17 @@ export default {
     });
 
     this.socket.on("new message", (data) => {
-      console.log(data);
-      this.messages = [...this.messages, data];
+      console.log(this.messages);
+      this.messages[data.chatName].push(data);
+      console.log(this.messages[data.chatName]);
     });
 
     this.socket.on("joined", (oldMessages) => {
-      this.messages = oldMessages;
+      this.messages[this.chatName] = oldMessages;
     });
 
-    this.socket.emit("join room", "general");
+    this.chatName = "general";
+    this.socket.emit("join room", this.chatName);
   },
 };
 </script>
