@@ -55,6 +55,8 @@ export default {
     other: function () {
       this.chatName = "other";
       this.socket.emit("join room", this.chatName);
+      console.log(this.chatName);
+      console.log(this.messages);
     },
   },
   mounted() {
@@ -72,8 +74,8 @@ export default {
 
     this.socket.on("new message", (data) => {
       this.messages.push(data);
-      console.log(this.messages);
     });
+
     this.socket.emit("join server", this.clientUsername);
     this.socket.emit("join room", this.chatName);
   },
