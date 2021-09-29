@@ -5,8 +5,8 @@
       <aside>
         <h2>Users</h2>
         <p v-for="user in users" :key="user.id">
-          <span v-if="user.username == 'this.clientUsername'">me </span
-          >{{ user.username }}
+          <!--<span v-if="user.username == 'this.clientUsername'">me </span
+          >-->{{ user.username }}
         </p>
         <h2>Rooms</h2>
         <a v-on:click="general">General</a>
@@ -14,9 +14,9 @@
         <a v-on:click="other">Other</a>
       </aside>
       <div class="room">
-        <p v-for="msg in messages[chatName]" :key="msg.content">
+        <div v-for="msg in messages" :key="msg.id">
           {{ msg.sender }} say : {{ msg.content }}
-        </p>
+        </div>
       </div>
     </section>
     <input v-model="message" type="text" />
@@ -59,23 +59,22 @@ export default {
   },
   mounted() {
     this.clientUsername = this.$route.params.id;
+    this.chatName = "general";
     this.socket = io("localhost:3301");
-
-    this.socket.emit("join server", this.clientUsername);
 
     this.socket.on("new user", (users) => {
       this.users = users;
     });
 
+    this.socket.on("joined", (data) => {
+      this.messages = data;
+    });
+
     this.socket.on("new message", (data) => {
-      this.messages[data.chatName].push(data);
+      this.messages.push(data);
+      console.log(this.messages);
     });
-
-    this.socket.on("joined", (oldMessages) => {
-      this.messages[this.chatName] = oldMessages;
-    });
-
-    this.chatName = "general";
+    this.socket.emit("join server", this.clientUsername);
     this.socket.emit("join room", this.chatName);
   },
 };
