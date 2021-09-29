@@ -10,8 +10,8 @@ const io = require('socket.io')(server);
 let users = [];
 
 const messages = {
-  general: [{"content" : "Salut", "sender" : "MrDraong"}],
-  other: [{"content" : "Other", "sender" : "MrDraong"}],
+  general: [{"id" : "1", "content" : "Salut", "sender" : "MrDraong"}],
+  other: [{"id" : "1", "content" : "Other", "sender" : "MrDraong"}],
 };
 
 io.on('connection', socket => {
@@ -33,16 +33,15 @@ io.on('connection', socket => {
   socket.on("send message", ({content, sender, chatName}) =>{
     
     const payload = {
+      id: messages[chatName].length +1,
       content,
-      sender,
-      chatName
+      sender
     };
     socket.emit("new message", payload);
     
     if(messages[chatName]){
       messages[chatName].push({
-        content,
-        sender
+        payload
       });
     }
   });
@@ -51,4 +50,5 @@ io.on('connection', socket => {
     users = users.filter(u => u.id !== socket.id);
     io.emit("new user", users);
   });
+
 });
