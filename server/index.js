@@ -30,6 +30,10 @@ io.on('connection', socket => {
     socket.emit("joined", messages[roomName]);
   });
 
+  socket.on("leave room", (roomName) => {
+    socket.leave(roomName);
+  });
+
   socket.on("send message", ({content, sender, chatName}) =>{
     
     const payload = {
@@ -41,9 +45,9 @@ io.on('connection', socket => {
     io.to(chatName).emit("new message", payload);
     
     if(messages[chatName]){
-      messages[chatName].push({
+      messages[chatName].push(
         payload
-      });
+      );
     }
   });
 

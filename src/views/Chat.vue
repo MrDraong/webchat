@@ -49,14 +49,14 @@ export default {
       this.message = "";
     },
     general: function () {
+      this.socket.emit("leave room", this.chatName);
       this.chatName = "general";
       this.socket.emit("join room", this.chatName);
     },
     other: function () {
+      this.socket.emit("leave room", this.chatName);
       this.chatName = "other";
       this.socket.emit("join room", this.chatName);
-      console.log(this.chatName);
-      console.log(this.messages);
     },
   },
   mounted() {
@@ -70,6 +70,7 @@ export default {
 
     this.socket.on("joined", (data) => {
       this.messages = data;
+      console.log(this.messages);
     });
 
     this.socket.on("new message", (data) => {
