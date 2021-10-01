@@ -4,23 +4,26 @@
     <section class="content">
       <aside>
         <h2>Users</h2>
-        <p v-for="user in users" :key="user.id">
-          <!--<span v-if="user.username == 'this.clientUsername'">me </span
-          >-->{{ user.username }}
-        </p>
+        <ul>
+          <li v-for="user in users" :key="user.id">{{ user.username }}</li>
+        </ul>
         <h2>Rooms</h2>
         <a v-on:click="general">General</a>
         <br />
         <a v-on:click="other">Other</a>
       </aside>
       <div class="room">
-        <div v-for="msg in messages" :key="msg.id">
-          {{ msg.sender }} say : {{ msg.content }}
+        <div class="messages">
+          <div v-for="msg in messages" :key="msg.id">
+            {{ msg.sender }} say : {{ msg.content }}
+          </div>
+        </div>
+        <div class="send">
+          <input v-model="message" type="text" />
+          <button v-on:click="sendMessage">Send</button>
         </div>
       </div>
     </section>
-    <input v-model="message" type="text" />
-    <button v-on:click="sendMessage">Send</button>
   </div>
 </template>
 
@@ -86,8 +89,29 @@ export default {
 a {
   text-decoration: none;
 }
+a:hover {
+  color: wheat;
+}
 aside {
-  width: 30%;
+  font-size: 1.2rem;
+  background-color: #b3f5bd;
+  color: white;
+  width: 20%;
+}
+ul {
+  padding: 0%;
+}
+li {
+  list-style: none;
+}
+
+input {
+  width: 80%;
+  padding: 0%;
+}
+button {
+  width: 15%;
+  padding: 0%;
 }
 
 .chat {
@@ -95,12 +119,22 @@ aside {
   height: 100%;
 }
 .room {
-  border: 5px double cyan;
   width: 70%;
 }
+.messages {
+  border: 8px double #b3ebf5;
+  border-radius: 4%;
+  height: 95%;
+}
 .content {
-  height: 80%;
+  height: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+}
+.send {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
